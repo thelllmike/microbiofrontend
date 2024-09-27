@@ -10,19 +10,20 @@ import 'package:microbiocol/utils/colors.dart';
 import 'package:microbiocol/widgets/custom_box.dart';
 import 'package:microbiocol/widgets/custom_button.dart';
 import 'package:microbiocol/widgets/lock_box.dart';
+import 'package:microbiocol/global.dart' as globals; // Import globals
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
   // fetching data from recentcard class
-
   final recentData = RecentCardData().recentDataList;
 
-// fetching data from savedItem class
-
+  // fetching data from savedItem class
   final savedData = SavedItemData().savedDataList;
-  //check whether the free tire or premium
+
+  // check whether the free tier or premium
   final bool isFreeTire = checkTire();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,9 +35,10 @@ class HomePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  "Hi, Jhon",
-                  style: TextStyle(
+                // Displaying the first name from globals
+                Text(
+                  "Hi, ${globals.firstName ?? 'User'}", // Use globals.firstName
+                  style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w700,
                       color: mprimaryColor),
@@ -189,7 +191,6 @@ class HomePage extends StatelessWidget {
   }
 
   //create single recent card
-
   Widget _recentCard(RecentCardModel data) {
     return Padding(
       padding: const EdgeInsets.only(right: 20),
@@ -254,7 +255,6 @@ class HomePage extends StatelessWidget {
   }
 
   //create single saved item details bar
-
   Widget _savedItemList(SavedItemModel data, BuildContext context) {
     return Column(
       children: [

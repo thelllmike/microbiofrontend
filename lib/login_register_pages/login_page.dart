@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:microbiocol/api_services/apiservice.dart';
 import 'package:microbiocol/login_register_pages/forgot_password.dart';
 import 'package:microbiocol/login_register_pages/register_page.dart';
 import 'package:microbiocol/micro_bio.dart';
@@ -7,9 +8,7 @@ import 'package:microbiocol/utils/colors.dart';
 import 'package:microbiocol/widgets/custom_button.dart';
 import 'package:microbiocol/widgets/custom_txetfiled.dart';
 import 'package:microbiocol/widgets/shared_login_method.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:microbiocol/global.dart' as globals;
+
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -24,24 +23,10 @@ class _LoginState extends State<Login> {
   final _passwordController = TextEditingController();
 
   Future<void> loginUser() async {
-    final url = Uri.parse('http://127.0.0.1:8000/auth/login'); // Update with your actual API endpoint
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      body: {
-        'username': _emailController.text, // 'username' is used for email in OAuth2PasswordRequestForm
-        'password': _passwordController.text,
-      },
-    );
+    final success = await ApiService.loginUser(_emailController.text, _passwordController.text);
 
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      setState(() {
-        globals.accessToken = data['access_token'];
-        globals.userId = data['user_id'];
-      });
-
-      // Navigate to the next page upon successful login
+    if (success) {
+      // Navigate to the HomePage (or another page) upon successful login
       Navigator.push(
         context,
         MaterialPageRoute(
